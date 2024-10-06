@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User info for create/update</title>
+</head>
+<body>
+<h2>User info</h2>
+<form th:action="@{/admin/updateUser}" th:object="${user}" th:method="PATCH">
+    <table>
+        <input type="hidden" th:field="*{id}"/>
+<!--        <input type="hidden" th:field="*{username}"/>-->
+<!--        <input type="hidden" th:field="*{password}"/>-->
+        <tr>
+            <td><label for="firstName">Name</label></td>
+            <td><input th:field="*{firstName}" type="text" id="firstName" placeholder="Enter name"/></td>
+            <td>
+                <div style="color: red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="lastName">Surname</label></td>
+            <td><input th:field="*{lastName}" type="text" id="lastName" placeholder="Enter surname"/></td>
+            <td>
+                <div style="color: red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="department">Department</label></td>
+            <td><input th:field="*{department}" type="text" id="department" placeholder="Enter department"/></td>
+            <td>
+                <div style="color: red" th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="phoneNumber">Phone number</label></td>
+            <td><input th:field="*{phoneNumber}" type="text" id="phoneNumber" placeholder="Enter phone number"/></td>
+            <td>
+                <div style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="username">Username</label></td>
+            <td><input th:field="*{username}" type="text" id="username" placeholder="Enter username"/></td>
+            <td>
+                <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="password">Password</label></td>
+            <td><input th:field="*{password}" type="text" id="password" placeholder="Enter password"/></td>
+            <td>
+                <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <h3>Select Roles:</h3>
+            <div th:each="role : ${roles}">
+                <input type="checkbox" th:id="${role.name()}"
+                       th:name="'roles'"
+                       th:value="${role.name()}"
+                       th:checked="${user.roles.contains(role)}"/>
+                <label th:for="${role.name()}">
+                    <span th:text="${role.name().replace('ROLE_','')}"></span>
+                </label><br/>
+            </div>
+            </td>
+            <td>
+                <div style="color: red" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></div>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <button type="submit">Ok</button>
+</form>
+<form action="/admin" method="get">
+    <button type="submit">Cancel</button>
+</form>
+<form th:action="@{/logout}" th:method="POST">
+    <input type="submit" value="Logout"/>
+</form>
+</body>
+</html>
+

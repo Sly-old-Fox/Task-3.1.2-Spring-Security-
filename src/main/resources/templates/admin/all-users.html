@@ -12,7 +12,7 @@
 </div>
 <br>
 <div>
-    <table th:border="1">
+    <table th:border="1"  >
         <tr>
             <th>Surname</th>
             <th>Name</th>
@@ -27,16 +27,15 @@
             <td th:text="${user.getFirstName()}">Name</td>
             <td th:text="${user.getDepartment()}">Department</td>
             <td th:text="${user.getPhoneNumber()}">Phone number</td>
-            <td th:text="${user.getRoles()}">Roles</td>
-            <td>
-                <div style="display: flex; gap: 10px;">
-                        <form th:method="GET" th:action="@{/admin/updateUser/{id}(id=${user.id})}">
-                            <input type="submit" value="Update">
-                        </form>
-                        <form th:method="DELETE" th:action="@{/admin/deleteUser/{id}(id=${user.id})}">
-                            <input type="submit" value="Delete">
-                        </form>
-                </div>
+            <td th:text="${#strings.listJoin(user.roles.![#strings.replace(roleName, 'ROLE_', '')], ', ')}">Roles</td>
+            <td> <div style="display: flex; gap: 10px;">
+                <form th:method="GET" th:action="@{/admin/updateUser/{id}(id=${user.id})}">
+                    <input type="submit" value="Update">
+                </form>
+                <form th:method="DELETE" th:action="@{/admin/deleteUser/{id}(id=${user.id})}">
+                    <input type="submit" value="Delete">
+                </form>
+            </div>
             </td>
         </tr>
     </table>

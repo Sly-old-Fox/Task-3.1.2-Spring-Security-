@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,7 +30,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/login","/error","/registration").permitAll()
+                        .requestMatchers("/login","/error").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated())
@@ -47,7 +48,7 @@ public class WebSecurityConfig {
     }
 
     @Autowired
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+       public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService);
     }
 

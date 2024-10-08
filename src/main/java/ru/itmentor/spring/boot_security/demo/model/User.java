@@ -3,9 +3,7 @@ package ru.itmentor.spring.boot_security.demo.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,10 +47,13 @@ public class User{
     @Column(name = "password")
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)
-    @CollectionTable(name = "roles", schema = "users_security_schema")
     @NotEmpty(message = "select a role")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_roles", schema = "users_security_schema",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles=new HashSet<>();
 
     public User() {

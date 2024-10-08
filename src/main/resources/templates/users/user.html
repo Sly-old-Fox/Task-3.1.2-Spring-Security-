@@ -23,7 +23,7 @@
             <td th:text="${user.getFirstName()}">Name</td>
             <td th:text="${user.getDepartment()}">Department</td>
             <td th:text="${user.getPhoneNumber()}">Phone number</td>
-            <td th:text="${user.getRoles()}">Roles</td>
+            <td th:each="role:${user.roles}" th:text="${role.roleName}">Roles</td>
         </tr>
     </table>
 </div>

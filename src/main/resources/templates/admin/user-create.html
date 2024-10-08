@@ -54,15 +54,11 @@
         <tr>
             <td>
             <h3>Select Roles:</h3>
-            <div th:each="role : ${roles}">
-                <input type="checkbox" th:id="${role.name()}"
-                       th:name="'roles'"
-                       th:value="${role.name()}"
-                       th:checked="${user.roles.contains(role)}"/>
-                <label th:for="${role.name()}">
-                    <span th:text="${role.name().replace('ROLE_','')}"></span>
-                </label><br/>
-            </div>
+
+                <div th:each="role : ${roles}">
+                    <input type="checkbox" th:field="*{roles}" th:value="${role.id}" th:text="${role.roleName.replace('ROLE_','')}"/>
+                </div>
+
             </td>
             <td>
                 <div style="color: red" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></div>

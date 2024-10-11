@@ -6,20 +6,21 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.itmentor.spring.boot_security.demo.model.Role;
 import ru.itmentor.spring.boot_security.demo.repositories.RoleRepository;
 
-import java.util.List;
+
+import java.util.Optional;
 
 @Service
-public class RoleServiceImpl implements RoleService  {
+public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
 
     @Autowired
-    public RoleServiceImpl(RoleRepository roleRepository) {
+    public RoleServiceImpl( RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 
     @Transactional(readOnly = true)
-    public List<Role> findAllRoles() {
-        return roleRepository.findAll();
+    public Optional<Role> findByRoleName(String roleName) {
+        return roleRepository.findByRoleName(roleName);
     }
 }

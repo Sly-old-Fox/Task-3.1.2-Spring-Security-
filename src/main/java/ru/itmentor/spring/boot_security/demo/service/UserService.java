@@ -1,6 +1,8 @@
 package ru.itmentor.spring.boot_security.demo.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
+import ru.itmentor.spring.boot_security.demo.dto.UserDTO;
+import ru.itmentor.spring.boot_security.demo.dto.UserResponseDTO;
 import ru.itmentor.spring.boot_security.demo.model.User;
 
 import java.util.List;
@@ -17,4 +19,11 @@ public interface UserService extends UserDetailsService {
 
     void deleteUser(Long id);
 
+    void saveUserDTO(UserDTO user);
+
+    UserDTO getUserDTOById(Long id);
+
+    void updateUserDTO(UserDTO user, Long id);
+
+    UserResponseDTO showUser(User user);
 }

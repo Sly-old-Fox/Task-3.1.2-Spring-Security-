@@ -6,6 +6,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.itmentor.spring.boot_security.demo.dto.UserDTO;
+import ru.itmentor.spring.boot_security.demo.dto.UserMapper;
+import ru.itmentor.spring.boot_security.demo.dto.UserResponseDTO;
 import ru.itmentor.spring.boot_security.demo.exception.users_exceptions.UserAlreadyExistsException;
 import ru.itmentor.spring.boot_security.demo.exception.users_exceptions.UserNotFoundException;
 import ru.itmentor.spring.boot_security.demo.model.Role;
@@ -21,13 +24,14 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserMapper userMapper;
     private final RoleService roleService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     @Autowired
-    public UserServiceImpl(RoleService roleService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserMapper userMapper, RoleService roleService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userMapper = userMapper;
         this.roleService = roleService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -86,6 +90,29 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(id);
         }
         userRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public void saveUserDTO(UserDTO user) {
+        saveUser(userMapper.userDTOToUser(user));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserDTO getUserDTOById(Long id) {
+        return userMapper.userToUserDTO(getUserById(id));
+    }
+
+    @Transactional
+    @Override
+    public void updateUserDTO(UserDTO user, Long id) {
+        updateUser(userMapper.userDTOToUser(user),id);
+    }
+
+    @Override
+    public UserResponseDTO showUser(User user) {
+        return userMapper.userToUserResponseDTO(user);
     }
 
     @Transactional(readOnly = true)

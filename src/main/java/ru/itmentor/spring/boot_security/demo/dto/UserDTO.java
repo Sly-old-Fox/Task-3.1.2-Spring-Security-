@@ -1,78 +1,37 @@
-package ru.itmentor.spring.boot_security.demo.model;
+package ru.itmentor.spring.boot_security.demo.dto;
 
-
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
-
-@Entity
-@Table(name = "users_security", schema = "users_security_schema")
-public class User{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserDTO {
 
     @NotBlank(message = "field cannot be empty")
     @Size(max = 35, message = "the permissible size has been exceeded")
-    @Column(name = "name")
     private String firstName;
 
     @NotBlank(message = "field cannot be empty")
     @Size(max = 35, message = "the permissible size has been exceeded")
-    @Column(name = "last_name")
     private String lastName;
 
     @NotNull(message = "the number must consist of six digits")
     @Max(value = 1000000, message = "the number must consist of six digits")
     @Min(value = 100000, message = "the number must consist of six digits")
-    @Column(name = "phone_number")
     private Integer phoneNumber;
 
     @NotBlank(message = "field cannot be empty")
     @Size(max = 45, message = "the permissible size has been exceeded")
-    @Column(name = "department")
     private String department;
 
     @NotBlank(message = "field cannot be empty")
     @Size(max = 35, message = "the permissible size has been exceeded")
-    @Column(name = "username", unique = true)
     private String username;
 
     @NotBlank(message = "field cannot be empty")
     @Size(min = 4, message = "min 4 characters")
-    @Column(name = "password")
     private String password;
 
     @NotEmpty(message = "select a role")
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_roles", schema = "users_security_schema",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles=new HashSet<>();
+    private String[] roles;
 
-    public User() {
-    }
-
-    public User(String firstName, String lastName, String department, Integer phoneNumber) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.department = department;
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -122,25 +81,11 @@ public class User{
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public String[] getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(String[] roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-               "id=" + id +
-               ", firstName='" + firstName + '\'' +
-               ", lastName='" + lastName + '\'' +
-               ", phoneNumber=" + phoneNumber +
-               ", department='" + department + '\'' +
-               ", username='" + username + '\'' +
-               ", password='" + password + '\'' +
-               ", roles=" + roles +
-               '}';
     }
 }
